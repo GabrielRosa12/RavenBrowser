@@ -1,0 +1,34 @@
+#!/bin/bash
+
+BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+FIREFOX="/c/Program Files/Mozilla Firefox/firefox.exe"
+
+abrir_perfil() {
+  local nome="$1"
+  local dir="$BASE_DIR/profiles/$nome"
+
+  mkdir -p "$dir"
+  local win=$(cygpath -w "$dir")
+
+  echo "Abrindo perfil: $nome..."
+  "$FIREFOX" --no-remote --profile "$win"
+}
+
+echo "=============="
+echo "Raven Browser"
+echo "=============="
+echo ""
+echo "1 - Normal"
+echo "2 - Tor"
+echo "3 - VPN"
+echo ""
+
+read -p "Escolha: " esc
+
+case $esc in
+  1) abrir_perfil "Normal" ;;
+  2) abrir_perfil "TOR" ;;
+  3) abrir_perfil "VPN" ;;
+  *) echo "Opção inválida!" ;;
+esac
+
