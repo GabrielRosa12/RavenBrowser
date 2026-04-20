@@ -1,0 +1,20 @@
+# Firefox profile cache e dados gerados automaticamente
+profiles/*
+!profiles/normal/
+!profiles/VPN/
+!profiles/TOR/
+
+profiles/normal/*
+!profiles/normal/chrome/
+!profiles/normal/user.js
+
+profiles/VPN/*
+!profiles/VPN/chrome/
+!profiles/VPN/user.js
+
+profiles/TOR/*
+!profiles/TOR/chrome/
+!profiles/TOR/user.js
+
+profiles/*/chrome/*
+!profiles/*/chrome/userChrome.css
