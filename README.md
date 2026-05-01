@@ -2,8 +2,6 @@
 
 ### Integrantes
 
-**Anthony Ferrazzo**
-
 **Ciro Eduardo Arruda**
 
 **Gabriel Rosa**
