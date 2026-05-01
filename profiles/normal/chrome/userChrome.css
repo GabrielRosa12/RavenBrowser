@@ -1,17 +1,2 @@
-#TabsToolbar {
-    visibility: collapse !important;
-}
-
-#nav-bar {
-    visibility: collapse !important;
-}
-
-#PersonalToolbar {
-    visibility: collapse !important;
-}
-
-
-#browser {
-    margin-top: 0px !important;
-}
-
+#nav-bar { display: none !important; }
+#TabsToolbar { display: none !important; }
