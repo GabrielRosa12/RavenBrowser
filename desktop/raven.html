@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raven Browser</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="raven.css">
+  <script src="raven.js" defer></script>
+</head>
+
+<body>
+
+  <nav class="nav-bar">
+    <button class="nav-btn" onclick="history.back()" title="Voltar">
+      <svg viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
+    <button class="nav-btn" onclick="history.forward()" title="Avançar">
+      <svg viewBox="0 0 24 24">
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    </button>
+    <button class="nav-btn" onclick="location.reload()" title="Recarregar">
+      <svg viewBox="0 0 24 24">
+        <polyline points="23 4 23 10 17 10" />
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+      </svg>
+    </button>
+</button>
+
+    <div class="nav-url">
+      <svg class="nav-lock" viewBox="0 0 24 24">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+      <input type="text" id="nav-input" spellcheck="false" placeholder="Pesquisar ou digitar endereço..."
+        onkeydown="if(event.key==='Enter') navegar(this.value)" />
+    </div>
+
+   <button class="nav-btn" onclick="alternarTelaCheia()" title="Tela cheia">
+      <svg viewBox="0 0 24 24">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+      </svg>
+    </button>
+
+    <button class="nav-btn" title="Configurações" onclick="window.location.href='config.html?perfil=' + (new URLSearchParams(window.location.search).get('perfil') || 'normal')">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+
+    <button class="nav-btn" onclick="window.close()" title="Fechar">
+      <svg viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="profile-badge" id="badge">Normal</div>
+  </nav>
+
+  <div class="container">
+    <div class="logo-wrap">
+      <img class="logo-img" src="../branding/icon.png" alt="Raven">
+      <span class="logo-title">Raven Browser</span>
+    </div>
+
+    <div class="search-wrap">
+      <div class="search-box">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path stroke-linecap="round" d="M21 21l-4.35-4.35" />
+        </svg>
+        <input class="search-input" type="text" id="busca" placeholder="Pesquise ou digite um endereço..."
+          autocomplete="off" autofocus />
+        <button class="search-btn" onclick="pesquisar()" title="Pesquisar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </button>
+      </div>
+      <p class="hint">Pressione Enter para pesquisar · DuckDuckGo</p>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('busca');
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') pesquisar(); });
+
+  function pesquisar() {
+  const texto = input.value.trim();
+  if (!texto) return;
+  const motor = localStorage.getItem('raven_motor') || 'https://duckduckgo.com/?q=';
+  const url = resolver(texto, motor);
+  if (url) window.location.href = url;
+}
+
+function resolver(texto, motor = 'https://duckduckgo.com/?q=') {
+  if (!texto) return null;
+  try {
+    const comSchema = texto.startsWith('http') ? texto : 'https://' + texto;
+    const parsed = new URL(comSchema);
+    if (parsed.hostname.includes('.')) return comSchema;
+    throw new Error();
+  } catch {
+    return motor + encodeURIComponent(texto);
+  }
+}
+   
+
+    function atualizarNavBar() {
+      const navInput = document.getElementById('nav-input');
+      navInput.value = window.location.href.includes('127.0.0.1')
+        ? '' : window.location.href;
+      navInput.placeholder = window.location.href;
+    }
+    atualizarNavBar();
+
+    const params = new URLSearchParams(window.location.search);
+    const perfil = params.get('perfil') || 'normal';
+    const badge = document.getElementById('badge');
+    const nomes = { normal: 'Normal', vpn: 'VPN', amnesia: 'Amnesia' };
+    badge.textContent = nomes[perfil] || 'Normal';
+    badge.className = 'profile-badge ' + perfil;
+  </script>
+</body>
+
+</html>
